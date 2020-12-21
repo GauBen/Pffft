@@ -1,0 +1,23 @@
+name: Runtest
+
+on: push
+
+jobs:
+  dune-runtest:
+    name: Run `dune runtest` on the commit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup OCaml
+        uses: avsm/setup-ocaml@v1
+        with:
+          ocaml-version: 4.11.1
+
+      - run: opam pin . --no-action
+
+      - run: opam install . --deps-only --with-doc --with-test
+
+      - run: opam exec -- dune runtest
