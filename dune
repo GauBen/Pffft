@@ -1,5 +1,4 @@
 (library
  (name pffft)
- (inline_tests)
- (preprocess
-  (pps ppx_inline_test)))
+ (public_name pffft)
+ (libraries pffft.flux))

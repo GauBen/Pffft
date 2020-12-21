@@ -1,6 +1,19 @@
-;;
-print_endline "Hello World!"
+let assumption _ = failwith "TODO"
 
-let%test _ = 1 + 1 = 2
+let assertion _ = failwith "TODO"
 
-let%test _ = true = false
+let miracle _ = failwith "TODO"
+
+let failure _ = failwith "TODO"
+
+let forall_bool _ = failwith "TODO"
+
+let forsome_bool _ = failwith "TODO"
+
+let forall _ = failwith "TODO"
+
+let forsome _ = failwith "TODO"
+
+let foratlest _ _ = failwith "TODO"
+
+let check _ = failwith "TODO"
