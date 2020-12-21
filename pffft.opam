@@ -1,0 +1,15 @@
+opam-version: "2.0"
+name: "Pffft"
+version: "0.1"
+synopsis: "Programmation fonctionnelle : un fantastique framework de test"
+description: """
+Voir README.md
+"""
+maintainer: "https://github.com/GauBen/Pffft/graphs/contributors"
+authors: "https://github.com/GauBen/Pffft/graphs/contributors"
+license: "MIT"
+homepage: "https://github.com/GauBen/Pffft"
+bug-reports: "https://github.com/GauBen/Pffft/issues"
+dev-repo: "git+https://github.com/GauBen/Pffft.git"
+depends: [ "ocaml" "ocamlfind" ]
+build: ["dune" "build" "-p" name "-j" jobs]
