@@ -14,6 +14,6 @@ let forall _ = failwith "TODO"
 
 let forsome _ = failwith "TODO"
 
-let foratlest _ _ = failwith "TODO"
+let foratleast _ _ = failwith "TODO"
 
 let check _ = failwith "TODO"

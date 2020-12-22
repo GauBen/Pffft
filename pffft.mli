@@ -39,7 +39,7 @@ val forsome : 'a Flux.t -> 'a
 (** Genéralise [forsome_bool] et forke l'exécution courante en autant de
     versions qu'il y a d'éléments dans le flux. *)
 
-val foratlest : int -> 'a Flux.t -> 'a
+val foratleast : int -> 'a Flux.t -> 'a
 (** Forke de la même façon l'exécution courante. L'exécution parente est
     valide si est seulement si au moins [n] exécutions filles le sont. On a
     [Pffft.forsome = Pffft.foratleast 1]. *)
