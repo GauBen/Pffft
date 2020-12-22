@@ -24,6 +24,7 @@
  (synopsis "Programmation fonctionnelle : un fantastique framework de test")
  (depends
   (ppx_inline_test :with-test)
+  delimcc
   (ocaml
    (>= 4.11.0))
   dune))

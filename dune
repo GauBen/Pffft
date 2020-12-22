@@ -1,4 +1,4 @@
 (library
  (name pffft)
  (public_name pffft)
- (libraries pffft.flux))
+ (libraries delimcc pffft.flux))
