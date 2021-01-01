@@ -3,7 +3,7 @@
 val assumption : (unit -> bool) -> unit
 (** Filtre et ne continue que les executions qui vérifient le prédicat passé
     en paramètre. Les autres exécutions sont simplement arrêtées et
-    déeclarées valides. Ceci correspond à la sémantique d'une précondition,
+    déclarées valides. Ceci correspond à la sémantique d'une précondition,
     i.e. on n'exécute un programme que si sa précondition est vraie, i.e. on
     ignore les autres exécutions. *)
 
@@ -48,3 +48,5 @@ val check : (unit -> unit) -> bool
 (** Exécute un programme instrumenté avec les primitives ci-dessus. Le
     resultat booléen représente la validité de l'exécution et permet de
     s'interfacer avec [let%test] de [ppx_inline_test].*)
+
+val hmmm : bool
