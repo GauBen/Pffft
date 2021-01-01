@@ -1,4 +1,12 @@
 (library
  (name pffft)
  (public_name pffft)
+ (inline_tests)
+ (preprocess
+  (pps ppx_inline_test))
  (libraries delimcc pffft.flux))
+
+(env
+ (dev
+  (flags
+   (:standard -w -27-32))))
