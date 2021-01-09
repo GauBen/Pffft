@@ -6,7 +6,7 @@ Ce projet utilise les outils [opam](https://opam.ocaml.org/) et [dune](https://d
 
 Versions conseillées :
 
-- OCaml 4.11.1
+- OCaml 4.07.1
 - opam 2.0.5
 - dune 2.7.1
 

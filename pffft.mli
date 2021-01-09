@@ -48,5 +48,3 @@ val check : (unit -> unit) -> bool
 (** Exécute un programme instrumenté avec les primitives ci-dessus. Le
     resultat booléen représente la validité de l'exécution et permet de
     s'interfacer avec [let%test] de [ppx_inline_test].*)
-
-val hmmm : bool
