@@ -39,7 +39,7 @@ let rec foratleast n flux =
             | Invalid -> cont (Some n))
       with
       | None -> v
-      | Some n -> foratleast n suite)
+      | Some n -> foratleast n suite )
   | None -> failure ()
 
 let check f =
@@ -53,3 +53,17 @@ let check f =
   with
   | Valid -> true
   | Invalid -> false
+
+let on_success f =
+  Delimcc.shift pt (fun cont ->
+      try cont ()
+      with Valid ->
+        f ();
+        miracle ())
+
+let on_failure f =
+  Delimcc.shift pt (fun cont ->
+      try cont ()
+      with Invalid ->
+        f ();
+        failure ())

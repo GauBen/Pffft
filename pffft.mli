@@ -48,3 +48,11 @@ val check : (unit -> unit) -> bool
 (** Exécute un programme instrumenté avec les primitives ci-dessus. Le
     resultat booléen représente la validité de l'exécution et permet de
     s'interfacer avec [let%test] de [ppx_inline_test].*)
+
+val on_success : (unit -> unit) -> unit
+(** Exécute la fonction passée en paramètre si et seulement si l'exécution
+    courante est valide. *)
+
+val on_failure : (unit -> unit) -> unit
+(** Exécute la fonction passée en paramètre si et seulement si l'exécution
+    courante est invalide. *)
