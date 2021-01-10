@@ -10,7 +10,7 @@ bug-reports: "https://github.com/GauBen/Pffft/issues"
 depends: [
   "ppx_inline_test" {with-test}
   "delimcc"
-  "ocaml" {= "4.07.1"}
+  "ocaml"
   "dune" {>= "2.7"}
   "odoc" {with-doc}
 ]

@@ -6,11 +6,18 @@ Ce projet utilise les outils [opam](https://opam.ocaml.org/) et [dune](https://d
 
 Versions conseillées :
 
-- OCaml 4.07.1
+- OCaml 4.11.1
 - opam 2.0.5
 - dune 2.7.1
 
 Environnement de développement conseillé : [VS Code](https://code.visualstudio.com/) avec [OCaml Platform](https://marketplace.visualstudio.com/items?itemName=ocamllabs.ocaml-platform) sur Linux.
+
+**Il est indispensable d'utiliser une version patchée de delimcc qui supprime la verbosité excessive !**
+Vous pouvez utiliser la commande ci-dessous, qui installe une version patchée, compatible avec OCaml 4.11.1 :
+
+```bash
+$ opam pin add delimcc git+https://github.com/GauBen/delimcc#master
+```
 
 ## Lancer les tests
 

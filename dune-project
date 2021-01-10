@@ -25,6 +25,5 @@
  (depends
   (ppx_inline_test :with-test)
   delimcc
-  (ocaml
-   (= 4.07.1))
+  ocaml
   dune))

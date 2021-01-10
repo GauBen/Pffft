@@ -14,7 +14,9 @@ jobs:
       - name: Setup OCaml
         uses: avsm/setup-ocaml@v1
         with:
-          ocaml-version: 4.07.1
+          ocaml-version: 4.11.1
+
+      - run: opam pin add delimcc git+https://github.com/GauBen/delimcc#master
 
       - run: opam pin . --no-action
 
