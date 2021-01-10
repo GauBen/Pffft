@@ -56,3 +56,37 @@ val on_success : (unit -> unit) -> unit
 val on_failure : (unit -> unit) -> unit
 (** Exécute la fonction passée en paramètre si et seulement si l'exécution
     courante est invalide. *)
+
+val forall_length : int Flux.t -> (unit -> 'a) -> 'a list
+(** [forall_length lengths values] produit des listes de longueur issue du flux
+    [lengths] avec les valeurs produites par [values], et vérifie que la suite
+    de l'exécution est valide pour toutes les listes produites.
+
+    On peut vérifier que sur les listes de longueur impaire contenant des ['a']
+    ou des ['b'], il y a toujours un nombre pair d'un des deux éléments :
+
+    {[
+      let rec count l x =
+        match l with
+        | [] -> 0
+        | t :: q when t = x -> 1 + count q x
+        | _ :: q -> count q x
+      in
+      let l =
+        forall_length
+          (Flux.unfold (fun x -> if x <= 10 then Some (x, x + 2) else None) 1)
+          (fun () -> forall Flux.(cons 'a' (cons 'b' empty)))
+      in
+      assertion (fun () -> count l 'a' mod 2 = 0 || count l 'b' mod 2 = 0)
+    ]} *)
+
+val forsome_length : int Flux.t -> (unit -> 'a) -> 'a list
+(** [forsome_length lengths values] produit des listes de longueur issue du flux
+    [lengths] avec les valeurs produites par [values], et vérifie que la suite
+    de l'exécution est valide pour au moins une des listes produites. *)
+
+val foratleast_length : int -> int Flux.t -> (unit -> 'a) -> 'a list
+(** [foratleast_length n lengths values] produit des listes de longueur issue du
+    flux [lengths] avec les valeurs produites par [values], et vérifie que la
+    suite de l'exécution est valide pour au moins [n] listes produites. On a
+    [Pffft.forsome_length = Pffft.foratleast_length 1]. *)
