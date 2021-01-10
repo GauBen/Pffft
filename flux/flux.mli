@@ -9,7 +9,7 @@ type 'a t
 
 (** {1 Manipulations élémentaires} *)
 
-val vide : 'a t
+val empty : 'a t
 (** Flux vide, qui se termine à la lecture du premier élément. *)
 
 val cons : 'a -> 'a t -> 'a t

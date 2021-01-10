@@ -1,6 +1,6 @@
 type 'a t = Tick of ('a * 'a t) option Lazy.t
 
-let vide = Tick (lazy None)
+let empty = Tick (lazy None)
 
 let cons t q = Tick (lazy (Some (t, q)))
 
