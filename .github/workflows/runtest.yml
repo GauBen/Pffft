@@ -16,7 +16,7 @@ jobs:
         with:
           ocaml-version: 4.11.1
 
-      - run: opam pin add delimcc git+https://github.com/GauBen/delimcc#master
+      - run: opam pin add delimcc git+https://github.com/GauBen/delimcc
 
       - run: opam pin . --no-action
 

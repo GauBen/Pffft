@@ -16,7 +16,7 @@ Environnement de développement conseillé : [VS Code](https://code.visualstudio
 Vous pouvez utiliser la commande ci-dessous, qui installe une version patchée, compatible avec OCaml 4.11.1 :
 
 ```bash
-$ opam pin add delimcc git+https://github.com/GauBen/delimcc#master
+$ opam pin add delimcc git+https://github.com/GauBen/delimcc
 ```
 
 ## Lancer les tests
