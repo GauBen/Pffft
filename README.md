@@ -10,11 +10,7 @@ Comme 3, 5 et 7 sont des nombres premiers, on pourrait être tenter de démontre
 
 Mathématiquement, on l'écrit :
 
-$$
-\forall n \in \N \text{ tel que } n \ge 3 \text{ et } n \text{ impair,}\\
-\forall p \in \N \text{ tel que } 2 \le p \lt n,\\
-n \not\equiv 0 \pmod p
-$$
+[$\forall n \in \N \text{ tel que } n \ge 3 \text{ et } n \text{ impair,}\\ \forall p \in \N \text{ tel que } 2 \le p \lt n,\\ n \not\equiv 0 \pmod p$](<https://katex.org/?data=%7B%22displayMode%22%3Atrue%2C%22leqno%22%3Afalse%2C%22fleqn%22%3Afalse%2C%22throwOnError%22%3Atrue%2C%22errorColor%22%3A%22%23cc0000%22%2C%22strict%22%3A%22warn%22%2C%22output%22%3A%22htmlAndMathml%22%2C%22trust%22%3Afalse%2C%22macros%22%3A%7B%22%5C%5Cf%22%3A%22%231f(%232)%22%7D%2C%22code%22%3A%22%5C%5Cforall%20n%20%5C%5Cin%20%5C%5CN%20%5C%5Ctext%7B%20tel%20que%20%7D%20n%20%5C%5Cge%203%20%5C%5Ctext%7B%20et%20%7D%20n%20%5C%5Ctext%7B%20impair%2C%7D%5C%5C%5C%5C%20%5C%5Cforall%20p%20%5C%5Cin%20%5C%5CN%20%5C%5Ctext%7B%20tel%20que%20%7D%202%20%5C%5Cle%20p%20%5C%5Clt%20n%2C%5C%5C%5C%5C%20n%20%5C%5Cnot%5C%5Cequiv%200%20%5C%5Cpmod%20p%22%7D>)
 
 Pffft permet de d'affirmer ou d'infirmer la véracité d'un tel théorème pour un ensemble de valeurs, par exemple pour les nombres impairs de 3 à 99.
 
