@@ -317,7 +317,7 @@ val forall_length : int Flux.t -> (unit -> 'a) -> 'a list
     ]}
 
     Attention, le quantificateur utilisé pour produire les valeurs de la liste
-    est vérifié :
+    doit être vérifié :
 
     {[
       let l =
