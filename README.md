@@ -6,7 +6,7 @@ _Programmation fonctionnelle : un fantastique framework de test._
 
 ## Introduction
 
-Comme 3, 5 et 7 sont des nombres premiers, on pourrait être tenter de démontrer le théorème « Tout nombre impair supérieur ou égal à 3 est premier ».
+Comme 3, 5 et 7 sont des nombres premiers, on pourrait être tenté de démontrer le théorème « Tout nombre impair supérieur ou égal à 3 est premier ».
 
 Mathématiquement, on l'écrit :
 
