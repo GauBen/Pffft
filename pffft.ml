@@ -31,15 +31,11 @@ let rec forsome values =
 let rec foratleast n values =
   if n <= 0 then miracle ();
   match Flux.uncons values with
-  | Some (v, sequel) -> (
-      match
-        Delimcc.shift pt (fun cont ->
-            try cont None with
-            | Valid -> cont (Some (n - 1))
-            | Invalid -> cont (Some n))
-      with
-      | None -> v
-      | Some n -> foratleast n sequel)
+  | Some (v, sequel) ->
+      let sucessful = forsome_bool () in
+      if forall_bool () && sucessful then v
+      else if sucessful then foratleast (n - 1) sequel
+      else foratleast n sequel
   | None -> failure ()
 
 let check f =
