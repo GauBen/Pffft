@@ -52,7 +52,7 @@ let check f =
     true
   with
   | Valid -> true
-  | Invalid -> false
+  | _ -> false
 
 let on_success f =
   Delimcc.shift pt (fun cont ->
