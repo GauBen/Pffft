@@ -17,7 +17,7 @@ Pffft permet de d'affirmer ou d'infirmer la véracité d'un tel théorème pour 
 On peut le formuler avec Pffft de la façon suivante :
 
 ```ocaml
-(** Produit un flux d'entiers de l'intervale [a; b] contenant ses bornes. *)
+(* Produit un flux d'entiers de l'intervale [a; b] contenant ses bornes. *)
 let range a b =
   Flux.unfold (fun x -> if x <= b then Some (x, x + 1) else None) a
 
@@ -27,12 +27,12 @@ let _ =
     Pffft.check
       Pffft.(
         fun () ->
-          (* Pour tout entier n dans [3; 99] :*)
+          (* Pour tout entier n dans [3; 99] : *)
           let n = forall (range 3 99) in
           (* tel que n impair : *)
           assumption (fun () -> n mod 2 = 1);
           on_success (fun () -> Format.printf "%d est premier.@." n);
-          (* Pour tout entier p dans [2; n-1] :*)
+          (* Pour tout entier p dans [2; n-1] : *)
           let p = forall (range 2 (n - 1)) in
           on_failure (fun () ->
               Format.printf "Contre-exemple : %d divise %d.@." p n);
