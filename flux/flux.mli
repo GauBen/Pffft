@@ -83,6 +83,10 @@ val unfold : ('a -> ('b * 'a) option) -> 'a -> 'b t
 
     mais attention à la terminaison du programme. *)
 
+val of_list : 'a list -> 'a t
+(** [of_list l] produit un flux à partir des éléments de [l] depuis la tête
+    de la liste. *)
+
 (** {1 Opérations supplémentaires} *)
 
 val map2 : ('a -> 'b -> 'c) -> 'a t -> 'b t -> 'c t
