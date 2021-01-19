@@ -34,35 +34,19 @@ let rec foratleast n values =
   | Some (v, sequel) ->
       let sucessful = forsome_bool () in
       if forall_bool () && sucessful then v
-      else if sucessful then foratleast (n - 1) sequel
-      else foratleast n sequel
+      else foratleast (if sucessful then n - 1 else n) sequel
   | None -> failure ()
 
 let check f =
-  try
-    let _ =
-      Delimcc.push_prompt pt (fun () ->
-          f ();
-          miracle ())
-    in
-    true
-  with
+  try Delimcc.push_prompt pt (fun () -> miracle (f ())) with
   | Valid -> true
   | _ -> false
 
 let on_success f =
-  Delimcc.shift pt (fun cont ->
-      try cont ()
-      with Valid ->
-        f ();
-        miracle ())
+  Delimcc.shift pt (fun cont -> try cont () with Valid -> miracle (f ()))
 
 let on_failure f =
-  Delimcc.shift pt (fun cont ->
-      try cont ()
-      with Invalid ->
-        f ();
-        failure ())
+  Delimcc.shift pt (fun cont -> try cont () with Invalid -> failure (f ()))
 
 let forall_length lengths values =
   List.init (forall lengths) (fun _ -> values ())
