@@ -1,6 +1,6 @@
 (** Test des quantificateurs sur les booléens *)
 
-let%test _ = Pffft.check Pffft.(fun () -> ())
+let%test _ = Pffft.check (fun () -> ())
 
 let%test _ = Pffft.check Pffft.(fun () -> miracle ())
 

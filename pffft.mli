@@ -226,7 +226,7 @@ val foratleast : int -> 'a Flux.t -> 'a
                 let b = foratleast (a - 2) (range 1 a) in
                 assertion (fun () -> a mod b <> 0)
               else
-                (* Il existe au moins 3 nombres qui ne divisent a : *)
+                (* Il existe au moins 3 nombres qui divisent a : *)
                 let b = foratleast 3 (range 1 a) in
                 assertion (fun () -> a mod b = 0))
     ]}
