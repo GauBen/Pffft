@@ -20,8 +20,8 @@ val uncons : 'a t -> ('a * 'a t) option
     d'une option :
 
     - [None] : le flux est terminé.
-    - [Some (v, suite)] : [v] est la valeur retirée du flux, et [suite] est la
-      suite du flux. *)
+    - [Some (v, sequel)] : [v] est la valeur retirée du flux, et [sequel] est
+      la suite du flux. *)
 
 val append : 'a t -> 'a t -> 'a t
 (** [append flux1 flux2] produit un unique flux qui est la concaténation de

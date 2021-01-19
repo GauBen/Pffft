@@ -20,18 +20,18 @@ let forsome_bool () =
 
 let rec forall values =
   match Flux.uncons values with
-  | Some (v, suite) -> if forall_bool () then v else forall suite
+  | Some (v, sequel) -> if forall_bool () then v else forall sequel
   | None -> miracle ()
 
 let rec forsome values =
   match Flux.uncons values with
-  | Some (v, suite) -> if forsome_bool () then v else forsome suite
+  | Some (v, sequel) -> if forsome_bool () then v else forsome sequel
   | None -> failure ()
 
 let rec foratleast n values =
   if n <= 0 then miracle ();
   match Flux.uncons values with
-  | Some (v, suite) -> (
+  | Some (v, sequel) -> (
       match
         Delimcc.shift pt (fun cont ->
             try cont None with
@@ -39,7 +39,7 @@ let rec foratleast n values =
             | Invalid -> cont (Some n))
       with
       | None -> v
-      | Some n -> foratleast n suite )
+      | Some n -> foratleast n sequel)
   | None -> failure ()
 
 let check f =
@@ -70,22 +70,22 @@ let on_failure f =
 
 let rec forall_length lengths values =
   match Flux.uncons lengths with
-  | Some (v, suite) ->
+  | Some (v, sequel) ->
       if forall_bool () then List.init v (fun _ -> values ())
-      else forall_length suite values
+      else forall_length sequel values
   | None -> miracle ()
 
 let rec forsome_length lengths values =
   match Flux.uncons lengths with
-  | Some (v, suite) ->
+  | Some (v, sequel) ->
       if forsome_bool () then List.init v (fun _ -> values ())
-      else forsome_length suite values
+      else forsome_length sequel values
   | None -> failure ()
 
 let rec foratleast_length n lengths values =
   if n <= 0 then miracle ();
   match Flux.uncons lengths with
-  | Some (v, suite) -> (
+  | Some (v, sequel) -> (
       match
         Delimcc.shift pt (fun cont ->
             try cont None with
@@ -93,5 +93,5 @@ let rec foratleast_length n lengths values =
             | Invalid -> cont (Some n))
       with
       | None -> List.init v (fun _ -> values ())
-      | Some n -> foratleast_length n suite values )
+      | Some n -> foratleast_length n sequel values)
   | None -> failure ()
