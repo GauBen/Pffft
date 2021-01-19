@@ -209,6 +209,11 @@ val on_success : (unit -> unit) -> unit
 
     {[
       let%test _ =
+        (* Produit un flux d'entier de l'intervale [a; b] contenant ses bornes. *)
+        let range a b =
+          Flux.unfold (fun x -> if x <= b then Some (x, x + 1) else None) a
+        in
+        (* Renvoie true si n est premier, false sinon. *)
         let is_prime n =
           let rec aux n i =
             if i * i > n then true else n mod i <> 0 && aux n (i + 1)
@@ -220,11 +225,13 @@ val on_success : (unit -> unit) -> unit
             fun () ->
               let a = forall (range 2 6) in
               if is_prime a then (
+                (* Message si l'assertion est vraie pour a premier *)
                 on_success (fun () ->
                     Format.printf "%d est premier n'a que 2 diviseurs.@." a);
                 let b = foratleast (a - 2) (range 1 a) in
                 assertion (fun () -> a mod b <> 0))
               else (
+                (* Message si l'assertion est vraie pour a non premier *)
                 on_success (fun () ->
                     Format.printf
                       "%d n'est pas premier et a au moins 3 diviseurs.@." a);
