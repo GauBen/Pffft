@@ -79,3 +79,59 @@ let%test _ =
                 a);
           let b = foratleast 3 (range 1 a) in
           assertion (fun () -> a mod b = 0)))
+
+let is_subset subset set =
+  Pffft.check
+    Pffft.(
+      fun () ->
+        let x = forall (Flux.of_list subset) in
+        let y = forsome (Flux.of_list set) in
+        assertion (fun () -> x = y))
+
+let%test _ = is_subset [ 'a'; 'b' ] [ 'a'; 'b'; 'c' ]
+
+let%test _ = is_subset [ 'a'; 'b' ] [ 'a'; 'b' ]
+
+let%test _ = not (is_subset [ 'a'; 'b' ] [ 'a' ])
+
+let%test _ = not (is_subset [ 'a' ] [])
+
+let%test _ = not (is_subset [ 'b' ] [ 'a' ])
+
+let%test _ = is_subset [ 'a' ] [ 'a' ]
+
+let%test _ = is_subset [] [ 'a' ]
+
+let%test _ = is_subset [] []
+
+let%test _ =
+  let is_prime_pffft n =
+    n >= 2
+    && not
+         (Pffft.check
+            Pffft.(
+              fun () ->
+                let i = forsome (range 2 (n / 2)) in
+                assertion (fun () -> n mod i = 0)))
+  in
+  let is_prime_pffft2 n =
+    n >= 2
+    && Pffft.check
+         Pffft.(
+           fun () ->
+             let i = forall (range 2 (n / 2)) in
+             assertion (fun () -> n mod i <> 0))
+  in
+  let is_prime n =
+    let rec aux n i =
+      if i * i > n then true else n mod i <> 0 && aux n (i + 1)
+    in
+    n >= 2 && aux n 2
+  in
+  Pffft.check
+    Pffft.(
+      fun () ->
+        let n = forall (range 0 50) in
+        let prime = is_prime n in
+        assertion (fun () ->
+            is_prime_pffft n = prime && is_prime_pffft2 n = prime))
