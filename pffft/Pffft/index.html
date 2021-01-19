@@ -53,7 +53,7 @@ FAILED 1 / 1 test</pre><p>Au lieu de vérifier si l'assertion est vraie pour tou
           let b = foratleast (a - 2) (range 1 a) in
           assertion (fun () -&gt; a mod b &lt;&gt; 0)
         else
-          (* Il existe au moins 3 nombres qui ne divisent a : *)
+          (* Il existe au moins 3 nombres qui divisent a : *)
           let b = foratleast 3 (range 1 a) in
           assertion (fun () -&gt; a mod b = 0))</code></pre><p>Si <code>foratleast n f</code> est appelé avec <code>n &lt;= 0</code>, l'exécution est déclarée valide. Si <code>n &gt; 0</code> et <code>f</code> est vide, l'exécution est déclarée invalide.</p></dd></dl></section><section><header><h2 id="affichage-des-succès-et-des-échecs"><a href="#affichage-des-succès-et-des-échecs" class="anchor"></a>Affichage des succès et des échecs</h2></header><aside><p>Il est possible d'appeler une fonction de <i>callback</i> sur une exécution, en fonction de son résultat.</p></aside><dl><dt class="spec value" id="val-on_success"><a href="#val-on_success" class="anchor"></a><code><span class="keyword">val</span> on_success : <span>(unit <span>&#45;&gt;</span> unit)</span> <span>&#45;&gt;</span> unit</code></dt><dd><p>Exécute la fonction passée en paramètre si et seulement si l'exécution courante est valide.</p><p>On peut reprendre l'exemple de la fonction <a href="index.html#val-foratleast"><code>foratleast</code></a> pour ajouter l'affichage d'un message à chaque cas traité :</p><pre><code class="ml">let%test _ =
   (* Produit un flux d'entier de l'intervale [a; b] contenant ses bornes. *)
