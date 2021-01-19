@@ -107,7 +107,7 @@ val forall_bool : unit -> bool
     et [false] dans l'autre. Pour que l'exécution parente soit valide, les deux
     exécutions filles doivent être valides.
 
-    On peut mettre en évidence le "fork" réalisé par [forall_bool] :
+    On peut mettre en évidence le {i fork} réalisé par [forall_bool] :
 
     {[
       let _ =
