@@ -154,7 +154,7 @@ val forsome : 'a Flux.t -> 'a
     L'exécution n'est déclarée valide que si au moins une exécution fille
     l'est. Si le flux est vide, l'exécution est déclarée invalide.
     L'exécution est paresseuse : la première exécution fille valide entraine
-    la validation de l'exécution parente.*)
+    la validation de l'exécution parente. *)
 
 val foratleast : int -> 'a Flux.t -> 'a
 (** L'exécution parente est valide si est seulement si au moins [n] exécutions
@@ -285,7 +285,7 @@ val on_failure : (unit -> unit) -> unit
 7 est premier.
 Contre-exemple : 3 divise 9.
 Le théorème est faux.
-    v}*)
+    v} *)
 
 (** {1 Quantificateurs sur les longueurs de liste} *)
 
@@ -384,7 +384,7 @@ val forsome_length : int Flux.t -> (unit -> 'a) -> 'a list
     [(p \['a'\] || p \['b'\]) || (p \['a'; 'a'\] || p \['a'; 'b'\] || p \['b'; 'a'\] || p \['b'; 'b'\])].
 
     L'exécution est paresseuse, et est déclarée valide au premier succès. Si
-    le flux des longueurs est vide, l'exécution est déclarée valide.*)
+    le flux des longueurs est vide, l'exécution est déclarée invalide. *)
 
 val foratleast_length : int -> int Flux.t -> (unit -> 'a) -> 'a list
 (** [foratleast_length n lengths values] produit des listes de longueur issue du
