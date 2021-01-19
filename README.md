@@ -72,7 +72,7 @@ Pour ajouter les dépendances au projet à tester [avec dune](https://dune.readt
  (libraries ... pffft ...))
 ```
 
-[Vous pouvez vous inspirer du répertoire `test`.](https://github.com/GauBen/Pffft/tree/main/tests)
+[Vous pouvez vous inspirer du répertoire `tests`.](https://github.com/GauBen/Pffft/tree/main/tests)
 
 Une fois installé, vous pouvez utiliser les bibliothèques `Pffft`, qui propose les quantificateurs, et `pffft.Flux`, qui permet de manipuler des flux de données.
 
