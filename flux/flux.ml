@@ -19,6 +19,8 @@ let rec unfold f e =
     (lazy
       (match f e with None -> None | Some (t, e') -> Some (t, unfold f e')))
 
+let rec of_list l = match l with [] -> empty | t :: q -> cons t (of_list q)
+
 let rec filter p flux =
   Tick
     (lazy
