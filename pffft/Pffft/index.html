@@ -102,7 +102,7 @@ let l =
     (Flux.unfold (fun x -&gt; if x &lt;= 10 then Some (x, x + 2) else None) 1)
     (fun () -&gt; forall (Flux.of_list [ 'a'; 'b' ]))
 in
-assertion (fun () -&gt; count l 'a' mod 2 = 0 || count l 'b' mod 2 = 0)</code></pre><p>Attention, le quantificateur utilisé pour produire les valeurs de la liste est vérifié :</p><pre><code class="ml">let l =
+assertion (fun () -&gt; count l 'a' mod 2 = 0 || count l 'b' mod 2 = 0)</code></pre><p>Attention, le quantificateur utilisé pour produire les valeurs de la liste doit être vérifié :</p><pre><code class="ml">let l =
   forall_length
     (Flux.of_list [ 1; 2 ])
     (fun () -&gt; forall (Flux.of_list [ 'a'; 'b' ]))
