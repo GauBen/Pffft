@@ -80,13 +80,14 @@ val assumption : (unit -> bool) -> unit
     ignore les autres exécutions.
 
     Par exemple, on peut exclure les cas où [a] ≥ [b] où les variables [a]
-    et [b] sont définies auparavant : [{assumption (fun () -> a < b)}].
+    et [b] sont définies auparavant : [assumption (fun () -> a < b)].
 
     On peut alors écrire des tests sous la forme :
 
-    - Pour tout [a] dans un tel ensemble
-    - Pour tout [b] dans un autre ensemble
-    - Tels que [a] < [b]
+    - Pour tout [a] dans un tel ensemble : [let a = forall (Flux.of_list e) in]
+    - Pour tout [b] dans un autre ensemble :
+      [let b = forall (Flux.of_list f) in]
+    - Tels que [a] < [b] : [assumption (fun () -> a < b);]
     - ... *)
 
 val assertion : (unit -> bool) -> unit
@@ -98,7 +99,8 @@ val assertion : (unit -> bool) -> unit
     erreur.
 
     [assertion] correspond généralement à la propriété qu'on veut montrer,
-    et est par conséquent souvent à la fin de la fonction testée. *)
+    et est par conséquent souvent à la fin de la fonction testée. Des
+    exemples sont donnés plus bas, à {!forall} et {!forsome}. *)
 
 (** {1 Quantificateurs sur les booléens} *)
 
@@ -125,9 +127,10 @@ val forall_bool : unit -> bool
     déclarée invalide. *)
 
 val forsome_bool : unit -> bool
-(** Forke l'exécution courante en deux versions. Dans chacune de ces versions,
-    [forsome_bool] renvoie un booleen différent. L'exécution parente est
-    valide si et seulement si au moins une des deux exécutions filles le sont.
+(** {i Forke} l'exécution courante en deux versions. Dans chacune de ces
+    versions, [forsome_bool] renvoie un booléen différent. L'exécution
+    parente est valide si et seulement si au moins une des deux exécutions
+    filles l'est.
 
     L'exécution est paresseuse, si la première est valide, la seconde n'est
     pas lancée et l'exécution parente est déclarée valide. *)
@@ -137,24 +140,60 @@ val forsome_bool : unit -> bool
 val forall : 'a Flux.t -> 'a
 (** Exécute la suite pour chaque élément du flux passé en argument.
 
-    [forall] correspond au quantificateur ∀ : on peut écrire [∀ x ∈ E]
-    avec le code [let x = forall (Flux.of_list e)], dans le cas où on
-    représente l'ensemble [E] avec la liste [e].
+    [forall] correspond au quantificateur ∀ : on peut écrire « ∀ x ∈ E
+    » avec le code [let x = forall (Flux.of_list e)], dans le cas où on
+    représente l'ensemble E avec la liste [e].
 
     L'exécution n'est déclarée valide que si toutes les exécutions filles le
     sont. Si le flux est vide, l'exécution est déclarée valide. L'exécution
     est paresseuse : la première exécution fille invalide entraine
-    l'invalidation de l'exécution parente. *)
+    l'invalidation de l'exécution parente.
+
+    Par exemple, on peut créer une fonction qui vérifie la primalité des
+    entiers :
+
+    {[
+      let is_prime n =
+        let range a b =
+          Flux.unfold (fun x -> if x <= b then Some (x, x + 1) else None) a
+        in
+        n >= 2
+        && Pffft.check
+             Pffft.(
+               fun () ->
+                 let i = forall (range 2 (n / 2)) in
+                 assertion (fun () -> n mod i <> 0))
+    ]}
+
+    Cette fonction est la traduction directe de « n premier ⇔ pour tout i
+    dans \[2; n/2\], i ne divise pas n ». *)
 
 val forsome : 'a Flux.t -> 'a
-(** Correspond au quantificateur ∃ : on peut écrire [∃ x ∈ E] avec le
+(** Correspond au quantificateur ∃ : on peut écrire « ∃ x ∈ E » avec le
     code [let x = forsome (Flux.of_list e)], dans le cas où on représente
-    l'ensemble [E] avec la liste [e].
+    l'ensemble E avec la liste [e].
 
     L'exécution n'est déclarée valide que si au moins une exécution fille
     l'est. Si le flux est vide, l'exécution est déclarée invalide.
     L'exécution est paresseuse : la première exécution fille valide entraine
-    la validation de l'exécution parente. *)
+    la validation de l'exécution parente.
+
+    Par exemple, on peut créer une fonction qui vérifie qu'un ensemble
+    contient un autre ensemble, dans le cas où on modélise les ensembles avec
+    des listes sans doublon :
+
+    {[
+      let is_subset subset set =
+        Pffft.check
+          Pffft.(
+            fun () ->
+              let x = forall (Flux.of_list subset) in
+              let y = forsome (Flux.of_list set) in
+              assertion (fun () -> x = y))
+    ]}
+
+    Cette fonction est la traduction directe de « subset ⊂ set ⇔ ∀ x ∈
+    subset, ∃ y ∈ set, x = y ». *)
 
 val foratleast : int -> 'a Flux.t -> 'a
 (** L'exécution parente est valide si est seulement si au moins [n] exécutions
