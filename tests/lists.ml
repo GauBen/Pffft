@@ -4,8 +4,8 @@
    x dans l <=> il existe l1, l2 de longeur 0, 1, 2 ou 3 telles que l =
    l1@(x::l2). *)
 let%test _ =
-  let lengths = Flux.(cons 0 (cons 1 (cons 2 (cons 3 empty)))) in
-  let values = Flux.(cons 'a' (cons 'b' (cons 'c' empty))) in
+  let lengths = Flux.of_list [ 0; 1; 2; 3 ] in
+  let values = Flux.of_list [ 'a'; 'b'; 'c' ] in
   Pffft.check
     Pffft.(
       fun () ->
@@ -16,10 +16,13 @@ let%test _ =
         let r = List.mem x l in
         assertion (fun () -> r = (l = l1 @ (x :: l2))))
 
+let lengths = Flux.of_list [ 1; 2; 3 ]
+
+let letters = Flux.of_list [ 'a'; 'b' ]
+
 (* Une liste de longueur impaire avec 2 éléments différents contient toujours un
    des deux éléments en nombre pair *)
 let%test _ =
-  let letters = Flux.(cons 'a' (cons 'b' empty)) in
   let odd_numbers =
     Flux.unfold (fun x -> if x <= 9 then Some (x, x + 2) else None) 1
   in
@@ -38,8 +41,6 @@ let%test _ =
 (* Il existe l une liste de longueur 1, 2 ou 3 et de 'a' ou 'b', telle que l = [
    'a'; 'a'; 'a' ] *)
 let%test _ =
-  let letters = Flux.(cons 'a' (cons 'b' empty)) in
-  let lengths = Flux.(cons 1 (cons 2 (cons 3 empty))) in
   Pffft.check
     Pffft.(
       fun () ->
@@ -49,8 +50,6 @@ let%test _ =
 (* Il existe une liste de longueur 1, 2 ou 3 telle que quels que soient ses
    éléments dans ['a'; 'b'], cette liste est de longueur 2. *)
 let%test _ =
-  let letters = Flux.(cons 'a' (cons 'b' empty)) in
-  let lengths = Flux.(cons 1 (cons 2 (cons 3 empty))) in
   Pffft.check
     Pffft.(
       fun () ->
@@ -60,8 +59,6 @@ let%test _ =
 (* Il N'existe PAS l une liste de longueur 1, 2 ou 3 telle que quels que soient
    ses éléments dans ['a'; 'b'], l = [ 'a'; 'a'; 'a' ] *)
 let%test _ =
-  let letters = Flux.(cons 'a' (cons 'b' empty)) in
-  let lengths = Flux.(cons 1 (cons 2 (cons 3 empty))) in
   not
     (Pffft.check
        Pffft.(
@@ -79,7 +76,6 @@ let%test _ =
         assertion (fun () -> List.length l > 1))
 
 let%test _ =
-  let lengths = Flux.(cons 1 (cons 2 (cons 3 empty))) in
   not
     (Pffft.check
        Pffft.(

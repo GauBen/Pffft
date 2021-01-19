@@ -1,6 +1,6 @@
 (** Test de Pffft.foratleast *)
 
-let values = Flux.(cons 1 (cons 2 (cons 3 (cons 4 empty))))
+let values = Flux.of_list [ 1; 2; 3; 4 ]
 
 (* Cas valides *)
 let%test _ =
