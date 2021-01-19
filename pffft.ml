@@ -68,30 +68,11 @@ let on_failure f =
         f ();
         failure ())
 
-let rec forall_length lengths values =
-  match Flux.uncons lengths with
-  | Some (v, sequel) ->
-      if forall_bool () then List.init v (fun _ -> values ())
-      else forall_length sequel values
-  | None -> miracle ()
+let forall_length lengths values =
+  List.init (forall lengths) (fun _ -> values ())
 
-let rec forsome_length lengths values =
-  match Flux.uncons lengths with
-  | Some (v, sequel) ->
-      if forsome_bool () then List.init v (fun _ -> values ())
-      else forsome_length sequel values
-  | None -> failure ()
+let forsome_length lengths values =
+  List.init (forsome lengths) (fun _ -> values ())
 
-let rec foratleast_length n lengths values =
-  if n <= 0 then miracle ();
-  match Flux.uncons lengths with
-  | Some (v, sequel) -> (
-      match
-        Delimcc.shift pt (fun cont ->
-            try cont None with
-            | Valid -> cont (Some (n - 1))
-            | Invalid -> cont (Some n))
-      with
-      | None -> List.init v (fun _ -> values ())
-      | Some n -> foratleast_length n sequel values)
-  | None -> failure ()
+let foratleast_length n lengths values =
+  List.init (foratleast n lengths) (fun _ -> values ())
