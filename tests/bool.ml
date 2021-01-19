@@ -1,5 +1,11 @@
 (** Test des quantificateurs sur les booléens *)
 
+let%test _ = Pffft.check Pffft.(fun () -> ())
+
+let%test _ = Pffft.check Pffft.(fun () -> miracle ())
+
+let%test _ = not (Pffft.check Pffft.(fun () -> failure ()))
+
 let%test _ =
   Pffft.check
     Pffft.(fun () -> if forall_bool () then miracle () else miracle ())
