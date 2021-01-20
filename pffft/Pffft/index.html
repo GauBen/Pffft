@@ -134,7 +134,18 @@ assertion (fun () -&gt; p l)</code></pre><p>va vérifier la propriété <code>(p
     (Flux.of_list [ 1; 2 ])
     (fun () -&gt; forsome (Flux.of_list [ 'a'; 'b' ]))
 in
-assertion (fun () -&gt; p l)</code></pre><p>va vérifier la propriété <code>(p ['a'] || p ['b']) &amp;&amp; (p ['a'; 'a'] || p ['a'; 'b'] || p ['b'; 'a'] || p ['b'; 'b'])</code>.</p><p>L'exécution est paresseuse, et est déclarée invalide à la première erreur. Si le flux des longueurs est vide, l'exécution est déclarée valide.</p></dd></dl><dl><dt class="spec value" id="val-forsome_length"><a href="#val-forsome_length" class="anchor"></a><code><span class="keyword">val</span> forsome_length : <span>int <a href="../Flux/index.html#type-t">Flux.t</a></span> <span>&#45;&gt;</span> <span>(unit <span>&#45;&gt;</span> <span class="type-var">'a</span>)</span> <span>&#45;&gt;</span> <span><span class="type-var">'a</span> list</span></code></dt><dd><p><code>forsome_length lengths values</code> produit des listes de longueur issue du flux <code>lengths</code> avec les valeurs produites par <code>values</code>, et vérifie que la suite de l'exécution est valide pour au moins une des longueurs produites.</p><p>Attention, le quantificateur utilisé pour produire les valeurs de la liste doit être vérifié :</p><pre><code class="ml">let l =
+assertion (fun () -&gt; p l)</code></pre><p>va vérifier la propriété <code>(p ['a'] || p ['b']) &amp;&amp; (p ['a'; 'a'] || p ['a'; 'b'] || p ['b'; 'a'] || p ['b'; 'b'])</code>.</p><p>L'exécution est paresseuse, et est déclarée invalide à la première erreur. Si le flux des longueurs est vide, l'exécution est déclarée valide.</p></dd></dl><dl><dt class="spec value" id="val-forsome_length"><a href="#val-forsome_length" class="anchor"></a><code><span class="keyword">val</span> forsome_length : <span>int <a href="../Flux/index.html#type-t">Flux.t</a></span> <span>&#45;&gt;</span> <span>(unit <span>&#45;&gt;</span> <span class="type-var">'a</span>)</span> <span>&#45;&gt;</span> <span><span class="type-var">'a</span> list</span></code></dt><dd><p><code>forsome_length lengths values</code> produit des listes de longueur issue du flux <code>lengths</code> avec les valeurs produites par <code>values</code>, et vérifie que la suite de l'exécution est valide pour au moins une des longueurs produites.</p><p>On peut par exemple vérifier que « x dans une liste l ⇔ il existe l1, l2 de longeur 0, 1, 2 ou 3 telles que l = l1@(x::l2) » :</p><pre><code class="ml">let%test _ =
+  let lengths = Flux.of_list [ 0; 1; 2; 3 ] in
+  let values = Flux.of_list [ 'a'; 'b'; 'c' ] in
+  Pffft.check
+    Pffft.(
+      fun () -&gt;
+        let l = forall_length lengths (fun () -&gt; forall values) in
+        let x = forall values in
+        let l1 = forsome_length lengths (fun () -&gt; forsome values) in
+        let l2 = forsome_length lengths (fun () -&gt; forsome values) in
+        let r = List.mem x l in
+        assertion (fun () -&gt; r = (l = l1 @ (x :: l2))))</code></pre><p>Attention, le quantificateur utilisé pour produire les valeurs de la liste doit être vérifié :</p><pre><code class="ml">let l =
   forsome_length
     (Flux.of_list [ 1; 2 ])
     (fun () -&gt; forall (Flux.of_list [ 'a'; 'b' ]))
