@@ -5,7 +5,7 @@
     Pffft.(
       fun () -&gt;
         let c = forall (Flux.of_list [ 'h'; 'e'; 'y'; 'H'; 'i' ]) in
-        assertion (fun () -&gt; is_lower c))</code></pre><p>Dans l'exemple au dessus, <code>forall</code> et <code>assertion</code> ne sont pas préfixé.</p><p>Dans cet exemple, la variable <code>c</code> va prendre les valeurs <code>'h'</code>, <code>'e'</code>, <code>'y'</code> et passer l'assertion. Lorsque <code>c</code> va prendre la valeur <code>'H'</code>, l'assertion va échouer et, comme l'assertion n'est pas vraie pour toutes les valeurs du flux, le test va échouer :</p><pre>File &quot;...&quot;: &lt;&lt;Pffft.check   (let open Pffft in      fun () [...]&gt;&gt; is false.
+        assertion (fun () -&gt; is_lower c))</code></pre><p>Dans l'exemple au dessus, <a href="index.html#val-forall"><code>forall</code></a> et <a href="index.html#val-assertion"><code>assertion</code></a> ne sont pas préfixés.</p><p>Dans cet exemple, la variable <code>c</code> va prendre les valeurs <code>'h'</code>, <code>'e'</code>, <code>'y'</code> et passer l'assertion. Lorsque <code>c</code> va prendre la valeur <code>'H'</code>, l'assertion va échouer et, comme l'assertion n'est pas vraie pour toutes les valeurs du flux, le test va échouer :</p><pre>File &quot;...&quot;: &lt;&lt;Pffft.check   (let open Pffft in      fun () [...]&gt;&gt; is false.
 FAILED 1 / 1 test</pre><p>Au lieu de vérifier si l'assertion est vraie pour tout <code>c</code>, on peut vérifier qu'il existe un <code>c</code> vérifiant l'assertion :</p><pre><code class="ml">let%test _ =
   let is_lower c = c = Char.lowercase_ascii c in
   Pffft.check
