@@ -1,4 +1,4 @@
-let pt = Delimcc.new_prompt ()
+let prompt = Delimcc.new_prompt ()
 
 exception Valid
 
@@ -13,10 +13,10 @@ let assumption predicate = if not (predicate ()) then miracle ()
 let assertion predicate = if not (predicate ()) then failure ()
 
 let forall_bool () =
-  Delimcc.shift pt (fun cont -> try cont true with Valid -> cont false)
+  Delimcc.shift prompt (fun cont -> try cont true with Valid -> cont false)
 
 let forsome_bool () =
-  Delimcc.shift pt (fun cont -> try cont true with Invalid -> cont false)
+  Delimcc.shift prompt (fun cont -> try cont true with Invalid -> cont false)
 
 let rec forall values =
   match Flux.uncons values with
@@ -38,15 +38,16 @@ let rec foratleast n values =
   | None -> failure ()
 
 let check f =
-  try () = ignore (Delimcc.push_prompt pt (fun () -> miracle (f ()))) with
+  try () = ignore (Delimcc.push_prompt prompt (fun () -> miracle (f ()))) with
   | Valid -> true
   | Invalid -> false
 
 let on_success f =
-  Delimcc.shift pt (fun cont -> try cont () with Valid -> miracle (f ()))
+  Delimcc.shift prompt (fun cont -> try cont () with Valid -> miracle (f ()))
 
 let on_failure f =
-  Delimcc.shift pt (fun cont -> try cont () with Invalid -> failure (f ()))
+  Delimcc.shift prompt (fun cont ->
+      try cont () with Invalid -> failure (f ()))
 
 let forall_length lengths values =
   List.init (forall lengths) (fun _ -> values ())
