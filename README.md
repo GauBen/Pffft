@@ -2,8 +2,8 @@
 
 _Programmation fonctionnelle : un fantastique framework de test._
 
-**→ [Consulter la documentation.](http://gauben.github.io/Pffft/)**<br>
-**→ [Couverture des tests : 100%.](https://gauben.github.io/Pffft/coverage/)**
+→ [**Consulter la documentation.**](http://gauben.github.io/Pffft/)<br>
+→ [**Couverture des tests : 100%.**](https://gauben.github.io/Pffft/coverage/)
 
 ## Introduction
 
