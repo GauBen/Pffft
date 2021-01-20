@@ -29,7 +29,7 @@ val check : (unit -> unit) -> bool
               assertion (fun () -> is_lower c))
     ]}
 
-    Dans l'exemple au dessus, [forall] et [assertion] ne sont pas préfixé.
+    Dans l'exemple au dessus, {!forall} et {!assertion} ne sont pas préfixés.
 
     Dans cet exemple, la variable [c] va prendre les valeurs ['h'], ['e'], ['y']
     et passer l'assertion. Lorsque [c] va prendre la valeur ['H'], l'assertion
