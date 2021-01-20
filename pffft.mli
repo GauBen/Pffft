@@ -400,6 +400,24 @@ val forsome_length : int Flux.t -> (unit -> 'a) -> 'a list
     [lengths] avec les valeurs produites par [values], et vérifie que la suite
     de l'exécution est valide pour au moins une des longueurs produites.
 
+    On peut par exemple vérifier que « x dans une liste l ⇔ il existe l1, l2
+    de longeur 0, 1, 2 ou 3 telles que l = l1\@(x::l2) » :
+
+    {[
+      let%test _ =
+        let lengths = Flux.of_list [ 0; 1; 2; 3 ] in
+        let values = Flux.of_list [ 'a'; 'b'; 'c' ] in
+        Pffft.check
+          Pffft.(
+            fun () ->
+              let l = forall_length lengths (fun () -> forall values) in
+              let x = forall values in
+              let l1 = forsome_length lengths (fun () -> forsome values) in
+              let l2 = forsome_length lengths (fun () -> forsome values) in
+              let r = List.mem x l in
+              assertion (fun () -> r = (l = l1 @ (x :: l2))))
+    ]}
+
     Attention, le quantificateur utilisé pour produire les valeurs de la liste
     doit être vérifié :
 
