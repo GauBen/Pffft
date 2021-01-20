@@ -38,9 +38,9 @@ let rec foratleast n values =
   | None -> failure ()
 
 let check f =
-  try Delimcc.push_prompt pt (fun () -> miracle (f ())) with
+  try () = ignore (Delimcc.push_prompt pt (fun () -> miracle (f ()))) with
   | Valid -> true
-  | _ -> false
+  | Invalid -> false
 
 let on_success f =
   Delimcc.shift pt (fun cont -> try cont () with Valid -> miracle (f ()))
