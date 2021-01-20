@@ -24,6 +24,7 @@
  (synopsis "Programmation fonctionnelle : un fantastique framework de test")
  (depends
   (ppx_inline_test :with-test)
+  (bisect_ppx :with-test)
   delimcc
   ocaml
   dune))

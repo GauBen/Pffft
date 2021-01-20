@@ -1,4 +1,6 @@
 (library
  (name pffft)
  (public_name pffft)
- (libraries delimcc pffft.flux))
+ (libraries delimcc pffft.flux)
+ (instrumentation
+  (backend bisect_ppx)))

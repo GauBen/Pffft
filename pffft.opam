@@ -9,6 +9,7 @@ doc: "https://github.com/GauBen/Pffft"
 bug-reports: "https://github.com/GauBen/Pffft/issues"
 depends: [
   "ppx_inline_test" {with-test}
+  "bisect_ppx" {with-test}
   "delimcc"
   "ocaml"
   "dune" {>= "2.7"}

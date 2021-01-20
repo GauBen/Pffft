@@ -2,7 +2,8 @@
 
 _Programmation fonctionnelle : un fantastique framework de test._
 
-**→ [Consulter la documentation.](http://gauben.github.io/Pffft/)**
+**→ [Consulter la documentation.](http://gauben.github.io/Pffft/)**<br>
+**→ [Couverture des tests : 100%.](https://gauben.github.io/Pffft/coverage/)**
 
 ## Introduction
 
@@ -58,7 +59,7 @@ Pffft s'utilise comme une bibliothèque [opam](https://opam.ocaml.org/).
 
 Pour ajouter les dépendances au gestionnaires de paquets opam :
 
-```
+```console
 $ opam pin add delimcc git+https://github.com/GauBen/delimcc
 $ opam pin add pffft git+https://github.com/GauBen/Pffft
 $ opam install pffft
@@ -93,19 +94,21 @@ Environnement de développement conseillé : [VS Code](https://code.visualstudi
 **Il est indispensable d'utiliser une version patchée de delimcc qui supprime la verbosité excessive !**
 Vous pouvez utiliser la commande ci-dessous, qui installe une version patchée, compatible avec OCaml 4.11.1 :
 
-```bash
+```console
 $ opam pin add delimcc git+https://github.com/GauBen/delimcc
 ```
 
 ### Lancer les tests
 
-```bash
-$ dune runtest
+```console
+$ dune runtest --instrument-with bisect_ppx --force
+$ bisect-ppx-report summary
+Coverage: 66/66 (100.00%)
 ```
 
 ### Produire la documentation
 
-```bash
+```console
 $ dune build @doc
 $ $BROWSER _build/default/_doc/_html/index.html
 ```

@@ -28,17 +28,17 @@ let rec forsome values =
   | None -> failure ()
 
 let rec foratleast n values =
-  (* "Il existe au moins n" est vrai pour n <= 0 *)
-  if n <= 0 then miracle ();
-  match Flux.uncons values with
-  | Some (v, sequel) ->
+  match (n, Flux.uncons values) with
+  | n, Some (v, sequel) when n > 0 ->
       (* On forke deux fois, et selon la valeur de [successful], on sait si la
          première exécution fille est valide ou invalide *)
       let sucessful = forsome_bool () in
       if forall_bool () && sucessful then v
       else foratleast (if sucessful then n - 1 else n) sequel
   (* "Il existe au moins n" est faux si [values] est vide *)
-  | None -> failure ()
+  | n, None when n > 0 -> failure ()
+  (* "Il existe au moins n" est vrai pour n <= 0 *)
+  | _ -> miracle ()
 
 (* [f () = ()] <=> [f (); true] mais évite 3 retours à la ligne de ocamlformat
    On renvoie [true] quand l'exécution se termine car toute exécution qui se
@@ -48,7 +48,11 @@ let check f = Delimcc.push_prompt prompt (fun () -> f () = ())
 (* On ajoute f dans la pile avant de faire remonter le résultat *)
 let on_success f = Delimcc.shift prompt (fun cont -> cont () && f () = ())
 
-let on_failure f = Delimcc.shift prompt (fun cont -> cont () || f () <> ())
+let on_failure f =
+  Delimcc.shift prompt (fun cont ->
+      let v = cont () in
+      if not v then f ();
+      v)
 
 let forall_length lengths values =
   List.init (forall lengths) (fun _ -> values ())
