@@ -1,19 +1,31 @@
-let prompt = Delimcc.new_prompt ()
+(* On représente une exécution valide par true, invalide par false, et on y
+   ajoute la liste des callbacks *)
+type result = bool * (unit -> unit) list
 
-(* On représente une exécution valide par true, invalide par false *)
-let miracle () = Delimcc.shift prompt (fun _ -> true)
+let prompt : result Delimcc.prompt = Delimcc.new_prompt ()
 
-let failure () = Delimcc.shift prompt (fun _ -> false)
+let miracle () = Delimcc.shift prompt (fun _ -> (true, []))
+
+let failure () = Delimcc.shift prompt (fun _ -> (false, []))
 
 let assumption predicate = if not (predicate ()) then miracle ()
 
 let assertion predicate = if not (predicate ()) then failure ()
 
+(* Forke en 1 ou 2 exécutions, selon le resultat de la première *)
+let fork_bool b =
+  Delimcc.shift prompt (fun cont ->
+      let r1, l1 = cont true in
+      if r1 = b then (r1, l1)
+      else
+        let r2, l2 = cont false in
+        (r2, l1 @ l2))
+
 (* L'exécution est valide si et seulement si les deux exécutions filles le sont *)
-let forall_bool () = Delimcc.shift prompt (fun cont -> cont true && cont false)
+let forall_bool () = fork_bool false
 
 (* ... si au moins une exécution fille est valide *)
-let forsome_bool () = Delimcc.shift prompt (fun cont -> cont true || cont false)
+let forsome_bool () = fork_bool true
 
 let rec forall values =
   match Flux.uncons values with
@@ -43,16 +55,20 @@ let rec foratleast n values =
 (* [f () = ()] <=> [f (); true] mais évite 3 retours à la ligne de ocamlformat
    On renvoie [true] quand l'exécution se termine car toute exécution qui se
    termine est considérée valide *)
-let check f = Delimcc.push_prompt prompt (fun () -> f () = ())
+let check f =
+  let r, l = Delimcc.push_prompt prompt (fun () -> (f () = (), [])) in
+  List.iter (fun f -> f ()) l;
+  r
 
 (* On ajoute f dans la pile avant de faire remonter le résultat *)
-let on_success f = Delimcc.shift prompt (fun cont -> cont () && f () = ())
-
-let on_failure f =
+let log b f =
   Delimcc.shift prompt (fun cont ->
-      let v = cont () in
-      if not v then f ();
-      v)
+      let r, l = cont () in
+      if r = b then (r, f :: l) else (r, l))
+
+let on_success f = log true f
+
+let on_failure f = log false f
 
 let forall_length lengths values =
   List.init (forall lengths) (fun _ -> values ())
