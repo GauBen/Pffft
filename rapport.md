@@ -56,8 +56,33 @@ Les contrats et les cas limites des fonctions sont détaillés dans la documenta
 
 Les deux extensions ont été développées, documentées et testées.
 
-- Affichage des succès et des échecs : https://gauben.github.io/Pffft/pffft/Pffft/#affichage-des-succ%C3%A8s-et-des-%C3%A9checs
 - Quantificateurs sur les longueurs de liste : https://gauben.github.io/Pffft/pffft/Pffft/#quantificateurs-sur-les-longueurs-de-liste
+
+  Leur implémentation est directe depuis `forall`, `forsome` et `foratleast`.
+
+- Affichage des succès et des échecs : https://gauben.github.io/Pffft/pffft/Pffft/#affichage-des-succ%C3%A8s-et-des-%C3%A9checs
+
+  Pour ajouter les _callbacks_, le type de retour a été modifié en une paire `bool * (unit -> unit) list`. Les fonctions `forall_bool` et `forsome_bool` s'occupent de fusionner les listes produites par les exécutions.
+
+  L'ordre d'appel des _callbacks_ a été ajouté à la suite de tests :
+
+  ```ocaml
+  let%test _ =
+    let l = ref [] in
+    let _ =
+      Pffft.check
+        Pffft.(
+          fun () ->
+            on_success (fun () -> l := 0 :: !l);
+            let _ = forall_bool () in
+            on_success (fun () -> l := 1 :: !l);
+            let b = forsome_bool () in
+            on_failure (fun () -> l := 2 :: !l);
+            on_success (fun () -> l := 3 :: !l);
+            assertion (fun () -> not b))
+    in
+    !l = [ 3; 2; 1; 3; 2; 1; 0 ]
+  ```
 
 ## Packaging et documentation
 
