@@ -3,24 +3,33 @@ let range a b =
   Flux.unfold (fun x -> if x <= b then Some (x, x + 1) else None) a
 
 (* Utilisation de Pffft sur le théorème : *)
-let _ =
-  if
-    Pffft.check
-      Pffft.(
-        fun () ->
-          (* Pour tout entier n dans [3; 99] : *)
-          let n = forall (range 3 99) in
-          (* tel que n impair : *)
-          assumption (fun () -> n mod 2 = 1);
-          on_success (fun () -> Format.printf "%d est premier.@." n);
-          (* Pour tout entier p dans [2; n-1] : *)
-          let p = forall (range 2 (n - 1)) in
-          on_failure (fun () ->
-              Format.printf "Contre-exemple : %d divise %d.@." p n);
-          (* p ne divise pas n : *)
-          assertion (fun () -> n mod p <> 0))
-  then failwith "Le théorème est juste jusqu'à 99."
-  else print_endline "Le théorème est faux."
+let%test _ =
+  let output = ref [] in
+  (not
+     (Pffft.check
+        Pffft.(
+          fun () ->
+            (* Pour tout entier n dans [3; 99] : *)
+            let n = forall (range 3 99) in
+            (* tel que n impair : *)
+            assumption (fun () -> n mod 2 = 1);
+            on_success (fun () ->
+                output := Format.sprintf "%d est premier.@." n :: !output);
+            (* Pour tout entier p dans [2; n-1] : *)
+            let p = forall (range 2 (n - 1)) in
+            on_failure (fun () ->
+                output :=
+                  Format.sprintf "Contre-exemple : %d divise %d.@." p n
+                  :: !output);
+            (* p ne divise pas n : *)
+            assertion (fun () -> n mod p <> 0))))
+  && !output
+     = [
+         "Contre-exemple : 3 divise 9.\n";
+         "7 est premier.\n";
+         "5 est premier.\n";
+         "3 est premier.\n";
+       ]
 
 let%test _ =
   let is_lower c = c = Char.lowercase_ascii c in
@@ -64,21 +73,34 @@ let%test _ =
     in
     n >= 2 && aux n 2
   in
+  let output = ref [] in
   Pffft.check
     Pffft.(
       fun () ->
         let a = forall (range 2 6) in
         if is_prime a then (
           on_success (fun () ->
-              Format.printf "%d est premier et n'a que 2 diviseurs.@." a);
+              output :=
+                Format.sprintf "%d est premier et n'a que 2 diviseurs.@." a
+                :: !output);
           let b = foratleast (a - 2) (range 1 a) in
           assertion (fun () -> a mod b <> 0))
         else (
           on_success (fun () ->
-              Format.printf "%d n'est pas premier et a au moins 3 diviseurs.@."
-                a);
+              output :=
+                Format.sprintf
+                  "%d n'est pas premier et a au moins 3 diviseurs.@." a
+                :: !output);
           let b = foratleast 3 (range 1 a) in
           assertion (fun () -> a mod b = 0)))
+  && !output
+     = [
+         "6 n'est pas premier et a au moins 3 diviseurs.\n";
+         "5 est premier et n'a que 2 diviseurs.\n";
+         "4 n'est pas premier et a au moins 3 diviseurs.\n";
+         "3 est premier et n'a que 2 diviseurs.\n";
+         "2 est premier et n'a que 2 diviseurs.\n";
+       ]
 
 let is_subset subset set =
   Pffft.check
